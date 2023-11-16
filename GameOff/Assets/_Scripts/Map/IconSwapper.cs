@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 public class IconSwapper : MonoBehaviour
 {
@@ -9,9 +10,25 @@ public class IconSwapper : MonoBehaviour
     public SegmentHover segmentHover;
     public GameObject iconSelectedEffect;
     private Sprite mySprite;
+    private Light2D iconLight;
+    private Animator iconAnimator;
+    private SpriteRenderer myRenderer;
 
     private void Start(){
-        mySprite = GetComponent<SpriteRenderer>().sprite;
+        iconLight = GetComponent<Light2D>();
+        myRenderer = GetComponent<SpriteRenderer>();
+        mySprite = myRenderer.sprite;
+        iconAnimator = GetComponent<Animator>();
+    }
+    private void OnMouseOver(){
+        iconLight.enabled = true;
+        iconAnimator.SetBool("IsHovering", true);
+        myRenderer.sortingOrder = 7;
+    }
+    private void OnMouseExit(){
+        iconLight.enabled = false;
+        iconAnimator.SetBool("IsHovering", false);
+        myRenderer.sortingOrder = 6;
     }
     private void OnMouseDown(){
         if(Input.GetMouseButtonDown(0)){
