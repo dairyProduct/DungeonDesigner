@@ -14,10 +14,15 @@ public class IconSwapper : MonoBehaviour
         mySprite = GetComponent<SpriteRenderer>().sprite;
     }
     private void OnMouseDown(){
-        
-        targetRenderer.sprite = mySprite;
-        segmentHover.EndSelection();
-        GameObject effect = Instantiate(iconSelectedEffect, targetRenderer.transform);
-        //segmentHover.gameObject.GetComponent<SpriteRenderer>().enabled = false;
+        if(Input.GetMouseButtonDown(0)){
+            targetRenderer.sprite = mySprite;
+            segmentHover.EndSelection();
+            Instantiate(iconSelectedEffect, targetRenderer.transform);
+        }
+        else if(Input.GetMouseButtonDown(1)){
+            targetRenderer.sprite = null;
+            segmentHover.EndSelection();
+            Instantiate(iconSelectedEffect, targetRenderer.transform);
+        }
     }
 }

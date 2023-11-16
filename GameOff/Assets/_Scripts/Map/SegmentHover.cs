@@ -51,6 +51,8 @@ public class SegmentHover : MonoBehaviour
         }
     }
 
+
+
     public void StartSelection(){
         isHovering = mySpriteRenderer.sprite == hoverSprite;
         mySpriteRenderer.sprite = lockedInSprite;
