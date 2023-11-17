@@ -13,12 +13,14 @@ public class IconSwapper : MonoBehaviour
     private Light2D iconLight;
     private Animator iconAnimator;
     private SpriteRenderer myRenderer;
+    private Animator mapAnimator;
 
     private void Start(){
         iconLight = GetComponent<Light2D>();
         myRenderer = GetComponent<SpriteRenderer>();
         mySprite = myRenderer.sprite;
         iconAnimator = GetComponent<Animator>();
+        mapAnimator = GameObject.Find("Map").GetComponent<Animator>();
     }
     private void OnMouseOver(){
         iconLight.enabled = true;
@@ -35,11 +37,13 @@ public class IconSwapper : MonoBehaviour
             targetRenderer.sprite = mySprite;
             segmentHover.EndSelection();
             Instantiate(iconSelectedEffect, targetRenderer.transform);
+            mapAnimator.SetTrigger("ItemPlaced");
         }
         else if(Input.GetMouseButtonDown(1)){
             targetRenderer.sprite = null;
             segmentHover.EndSelection();
             Instantiate(iconSelectedEffect, targetRenderer.transform);
+            
         }
     }
 }
