@@ -4,15 +4,14 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
+    public DialogueManager dialogueManager;
+    private void Start(){
+        StartCoroutine(StartGameSequence());
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+    IEnumerator StartGameSequence(){
+        yield return new WaitForSeconds(3);
+        Debug.Log("StartedDialogue");
+        dialogueManager.StartNextDialogue();
     }
 }

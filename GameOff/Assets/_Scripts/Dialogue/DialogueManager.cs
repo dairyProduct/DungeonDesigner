@@ -24,6 +24,7 @@ public class DialogueManager : MonoBehaviour
     
 
     public TextMeshProUGUI dialogueTextUI;
+    public Animator dialogueBoxAnimator;
     public float delayBetweenTextUnits = 2.5f;
     public SpriteRenderer faceSpriteRenderer;
     [SerializeField]
@@ -44,6 +45,8 @@ public class DialogueManager : MonoBehaviour
     /// <returns></returns>
     private IEnumerator DisplayDialogueText(DialogueSegment currentRuleDialogue){
         isSpeaking = true;
+        dialogueBoxAnimator.SetBool("IsSpeaking", isSpeaking);
+        yield return new WaitForSeconds(0.5f);
 
         foreach(DialogueUnit dialogueUnit in currentRuleDialogue.textUnit){ //foreach textUnit
             float textSpeed = dialogueUnit.textSpeed;
@@ -56,8 +59,10 @@ public class DialogueManager : MonoBehaviour
             }
 
             yield return new WaitForSeconds(delayBetweenTextUnits);
+            dialogueTextUI.text = "";
         }
         isSpeaking = false;
+        dialogueBoxAnimator.SetBool("IsSpeaking", isSpeaking);
     }
 
 
@@ -66,7 +71,10 @@ public class DialogueManager : MonoBehaviour
     /// start next dialogue if there isn't one ongoing. if one is ongoing, add it to the queue
     /// </summary>
     /// <param name="dialogueSegment"></param>
-    private void StartNextDialogue(DialogueSegment[] dialogueSegment){
+    public void StartNextDialogue(bool isRuleDialogue = true){
+
+        DialogueSegment[] dialogueSegment = isRuleDialogue ? nextRuleDialogueSegments : randomGoofyDialogueSegments;
+
         lastSpokenDialogueTimer = 0;
         if(!isSpeaking){
             StartCoroutine(DisplayDialogueText(dialogueSegment[currentRuleNumber]));
@@ -74,9 +82,9 @@ public class DialogueManager : MonoBehaviour
     }
 
     private void Update(){
-        lastSpokenDialogueTimer += Time.deltaTime;
+        //lastSpokenDialogueTimer += Time.deltaTime;
         if(lastSpokenDialogueTimer >= 30){
-            StartNextDialogue(randomGoofyDialogueSegments);
+            StartNextDialogue(false);
         }
     }
 }
